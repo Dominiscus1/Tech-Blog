@@ -2,11 +2,13 @@ const router = require('express').Router();
 const { Post } = require('../models/');
 const withAuth = require('../utils/auth');
 
-router.get('/', withAuth, async (req, res) => {
+router.get('/', withAuth, async (req, res) => { //localhost:3001/dashboard/
   try {
     const postData = await Post.findAll({
       where: {
         // TODO: SET USERID userId TO THE REQUEST SESSION LOGGED-IN USER ID
+        //Where is like a filter. You choose which ones you want
+        userId:  req.session.userId
       },
     });
 
@@ -20,8 +22,7 @@ router.get('/', withAuth, async (req, res) => {
     res.redirect('login');
   }
 });
-
-router.get('/new', withAuth, (req, res) => {
+router.get('/new', withAuth, (req, res) => { 
   res.render('new-post', {
     layout: 'dashboard',
   });
