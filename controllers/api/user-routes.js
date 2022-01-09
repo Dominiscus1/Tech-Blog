@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { c } = require('tar');
 const { User } = require('../../models');
 
 // URL: /api/user
@@ -13,7 +14,7 @@ router.post('/', async (req, res) => {
 
     req.session.save(() => {
       // TODO: SET USERID userId IN REQUEST SESSION TO ID RETURNED FROM DATABASE
-      req.session.userId = newUser.id;
+      req.session.userId = newUser.id;//userData.id?
       // TODO: SET USERNAME username IN REQUEST SESSION TO USERNAME RETURNED FROM DATABASE
       req.session.username = newUser.username;
       // TODO: SET LOGGEDIN loggedIn TO TRUE IN REQUEST SESSION
@@ -49,7 +50,7 @@ router.post('/login', async (req, res) => {
 
     req.session.save(() => {
       // TODO: SET USERID userId IN REQUEST SESSION TO ID RETURNED FROM DATABASE
-      req.session.userId = user.Id; //user.Id? or user.id? does capital matter
+      req.session.userId = user.id; //user.Id? or user.id? does capital matter. yes it does
       // TODO: SET USERNAME username IN REQUEST SESSION TO USERNAME RETURNED FROM DATABASE
       req.session.username = user.username;
       // TODO: SET LOGGEDIN loggedIn TO TRUE IN REQUEST SESSION
@@ -62,6 +63,8 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/logout', (req, res) => {
+  console.log("Logged out");
+  console.log(req.session.loggedIn);
   if (req.session.loggedIn) {
     req.session.destroy(() => {
       res.status(204).end();

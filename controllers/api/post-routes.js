@@ -8,8 +8,7 @@ router.post('/', withAuth, async (req, res) => {
   try {
     const newPost = await Post.create({
       // TODO: POST BODY SENT IN REQUEST. HINT USING SPREAD 
-      ...body,// spread?
-      // TODO: SET USERID userId TO LOGGEDIN USERID
+      ...body,
       userId: req.session.userId
     });
     res.json(newPost);
@@ -23,7 +22,7 @@ router.put('/:id', withAuth, async (req, res) => {
     const [affectedRows] = await Post.update(req.body, {
       // TODO: SET ID TO ID PARAMETER INSIDE WHERE CLAUSE CONDITION FIELD
       where: {
-        id: params.id
+        id: req.params.id  //Update not working? previously had params.id without req
       }
     });
 
